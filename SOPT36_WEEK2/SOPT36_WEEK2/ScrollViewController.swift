@@ -12,12 +12,14 @@ final class ScrollViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
+        
         redView.backgroundColor = .red
         orangeView.backgroundColor = .orange
         yellowView.backgroundColor = .yellow
         greenView.backgroundColor = .green
         blueView.backgroundColor = .blue
         purpleView.backgroundColor = .purple
+        
         setLayout()
     }
     
@@ -46,14 +48,11 @@ final class ScrollViewController: UIViewController {
         purpleView.translatesAutoresizingMaskIntoConstraints = false
 
         view.addSubview(scrollView)
+        
         scrollView.addSubview(contentView)
-        contentView.addSubview(redView)
-        contentView.addSubview(orangeView)
-        contentView.addSubview(yellowView)
-        contentView.addSubview(greenView)
-        contentView.addSubview(blueView)
-        contentView.addSubview(purpleView)
-
+        [redView, orangeView, yellowView, greenView, blueView, purpleView].forEach {
+            contentView.addSubview($0)
+        }
        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -94,33 +93,37 @@ final class ScrollViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            yellowView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            yellowView.topAnchor.constraint(equalTo: redView.bottomAnchor),
             yellowView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            yellowView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            yellowView.heightAnchor.constraint(equalToConstant: height)
+//            yellowView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            yellowView.heightAnchor.constraint(equalToConstant: height),
+            yellowView.widthAnchor.constraint(equalToConstant: width)
         ])
        
         NSLayoutConstraint.activate([
-            greenView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            greenView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            greenView.topAnchor.constraint(equalTo: orangeView.bottomAnchor),
+//            greenView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             greenView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            greenView.heightAnchor.constraint(equalToConstant: height)
+            greenView.heightAnchor.constraint(equalToConstant: height),
+            greenView.widthAnchor.constraint(equalToConstant: width)
         ])
 
         NSLayoutConstraint.activate([
-            blueView.topAnchor.constraint(equalTo: greenView.bottomAnchor),
+//            blueView.topAnchor.constraint(equalTo: yellowView.bottomAnchor),
             blueView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            blueView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            blueView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             blueView.heightAnchor.constraint(equalToConstant: height),
+            blueView.widthAnchor.constraint(equalToConstant: width),
             blueView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            purpleView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            purpleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+//            purpleView.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            purpleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             purpleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             purpleView.heightAnchor.constraint(equalToConstant: height),
-            purpleView.widthAnchor.constraint(equalToConstant: width)
+            purpleView.widthAnchor.constraint(equalToConstant: width),
+            purpleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
