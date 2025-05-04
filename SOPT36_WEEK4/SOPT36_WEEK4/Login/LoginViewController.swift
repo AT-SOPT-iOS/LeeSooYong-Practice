@@ -21,10 +21,10 @@ final class LoginViewController: UIViewController {
         setLayout()
     }
     
-//    @objc private func infoViewButtonTap() {
-//        let infoVC = InfoViewController()
-//        self.present(infoVC, animated: true)
-//    }
+    @objc private func infoViewButtonTap() {
+        let infoVC = InfoViewController()
+        self.present(infoVC, animated: true)
+    }
     
     @objc private func registerButtontap() {
         Task {
@@ -118,9 +118,9 @@ final class LoginViewController: UIViewController {
     }
     
     private lazy var infoViewButton = UIButton().then {
-//        $0.addTarget(self,
-//                     action: #selector(infoViewButtonTap),
-//                     for: .touchUpInside)
+        $0.addTarget(self,
+                     action: #selector(infoViewButtonTap),
+                     for: .touchUpInside)
         $0.backgroundColor = .blue
         $0.setTitle("회원정보 조회", for: .normal)
         $0.titleLabel?.textColor = .white
