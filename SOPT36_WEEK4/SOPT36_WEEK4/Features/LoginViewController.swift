@@ -15,6 +15,7 @@ final class LoginViewController: UIViewController {
     private var loginId: String = ""
     private var password: String = ""
     private var nickName: String = ""
+    private var userId: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,8 @@ final class LoginViewController: UIViewController {
     }
     
     @objc private func infoViewButtonTap() {
-        let infoVC = InfoViewController()
+        guard let userId = self.userId else { return }
+        let infoVC = InfoViewController(userId: userId)
         self.present(infoVC, animated: true)
     }
     
@@ -65,6 +67,7 @@ final class LoginViewController: UIViewController {
                     message: "(ID: \(response.userId))",
                     preferredStyle: .alert
                 )
+                self.userId = response.userId
                 
                 let okAction = UIAlertAction(title: "확인", style: .default)
                 alert.addAction(okAction)

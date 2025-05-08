@@ -15,7 +15,15 @@ final class InfoViewController: UIViewController {
     // MARK: - Properties
 
     private var keyword: String = ""
-    private let userId: Int = 1 // 실제 로그인된 사용자 ID로 교체 필요
+    private var userId: Int
+    init(userId: Int) {
+            self.userId = userId
+            super.init(nibName: nil, bundle: nil)
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
 
     // MARK: - Lifecycle
 
@@ -39,6 +47,17 @@ final class InfoViewController: UIViewController {
                 }
             }
         }
+    
+    @objc private func searchMyButtonTap() {
+        Task {
+            do {
+                let nickname = try await GetMyInfoService.shared.fetchNickname(userId: self.userId)
+                self.myLabel.text = "내 닉네임 \n\(nickname)"
+            } catch {
+                self.myLabel.text = "조회 실패\(error.localizedDescription)"
+            }
+        }
+    }
 
     
     @objc private func textFieldDidEditing(_ textField: UITextField) {
@@ -55,7 +74,7 @@ final class InfoViewController: UIViewController {
             $0.top.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(200)
         }
 
-        [keywordTextField, infoLabel, searchButton].forEach {
+        [keywordTextField, infoLabel, myLabel, searchButton, searchMyButton].forEach {
             self.stackView.addArrangedSubview($0)
         }
     }
@@ -87,12 +106,30 @@ final class InfoViewController: UIViewController {
         $0.layer.cornerRadius = 8
         $0.heightAnchor.constraint(equalToConstant: 44).isActive = true
     }
+    
+    private lazy var myLabel = UILabel().then {
+        $0.textColor = .black
+        $0.textAlignment = .left
+        $0.numberOfLines = 0
+        $0.font = .systemFont(ofSize: 16)
+    }
 
     private lazy var infoLabel = UILabel().then {
         $0.textColor = .black
         $0.textAlignment = .left
         $0.numberOfLines = 0
         $0.font = .systemFont(ofSize: 16)
+    }
+    
+    private lazy var searchMyButton = UIButton().then {
+        $0.addTarget(self,
+                     action: #selector(searchMyButtonTap),
+                     for: .touchUpInside)
+        $0.backgroundColor = .blue
+        $0.setTitle("내 닉네임 조회", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.layer.cornerRadius = 8
+        $0.heightAnchor.constraint(equalToConstant: 44).isActive = true
     }
 }
 

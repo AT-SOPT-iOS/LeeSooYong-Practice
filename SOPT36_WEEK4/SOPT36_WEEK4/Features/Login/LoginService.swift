@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LoginService {
+final class LoginService {
     static let shared = LoginService()
     private init() {}
     
