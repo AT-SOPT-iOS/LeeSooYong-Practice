@@ -56,6 +56,35 @@ final class LoginViewController: UIViewController {
         }
     }
     
+    @objc private func loginButtonTap() {
+        Task {
+            do {
+                let response = try await LoginService.shared.PostLoginData(loginId: self.loginId, password: self.password)
+                let alert = UIAlertController (
+                    title: "로그인 성공",
+                    message: "(ID: \(response.userId))",
+                    preferredStyle: .alert
+                )
+                
+                let okAction = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(okAction)
+                self.present(alert, animated: true)
+            } catch {
+                let alert = UIAlertController (
+                    title: "로그인 실패",
+                    message: error.localizedDescription,
+                    preferredStyle: .alert
+                )
+                
+                let okAction = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(okAction)
+                self.present(alert, animated: true)
+                
+                print("로그인 에러:", error)
+            }
+        }
+    }
+    
     @objc private func textFieldDidEditing(_ textField: UITextField) {
         switch textField {
         case idTextField:
@@ -76,7 +105,7 @@ final class LoginViewController: UIViewController {
             $0.top.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(200)
         }
         
-        [idTextField, passwordTextField, nickNameTextField, registerButton, infoViewButton].forEach {
+        [idTextField, passwordTextField, nickNameTextField, registerButton, loginButton, infoViewButton].forEach {
             self.stackView.addArrangedSubview($0)
         }
     }
@@ -115,6 +144,13 @@ final class LoginViewController: UIViewController {
         $0.setTitle("회원가입", for: .normal)
         $0.titleLabel?.textColor = .white
         $0.addTarget(self, action: #selector(registerButtontap), for: .touchUpInside)
+    }
+    
+    private lazy var loginButton = UIButton().then {
+        $0.backgroundColor = .blue
+        $0.setTitle("로그인", for: .normal)
+        $0.titleLabel?.textColor = .white
+        $0.addTarget(self, action: #selector(loginButtonTap), for: .touchUpInside)
     }
     
     private lazy var infoViewButton = UIButton().then {
