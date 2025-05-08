@@ -28,6 +28,12 @@ final class LoginViewController: UIViewController {
         self.present(infoVC, animated: true)
     }
     
+    @objc private func changeNickButtonTap() {
+        guard let userId = self.userId else { return }
+        let changeVC = ChangeViewController(userId: userId)
+        self.present(changeVC, animated: true)
+    }
+    
     @objc private func registerButtontap() {
         Task {
             do {
@@ -108,7 +114,7 @@ final class LoginViewController: UIViewController {
             $0.top.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(200)
         }
         
-        [idTextField, passwordTextField, nickNameTextField, registerButton, loginButton, infoViewButton].forEach {
+        [idTextField, passwordTextField, nickNameTextField, registerButton, loginButton, infoViewButton, changeNickwButton].forEach {
             self.stackView.addArrangedSubview($0)
         }
     }
@@ -162,6 +168,15 @@ final class LoginViewController: UIViewController {
                      for: .touchUpInside)
         $0.backgroundColor = .blue
         $0.setTitle("회원정보 조회", for: .normal)
+        $0.titleLabel?.textColor = .white
+    }
+    
+    private lazy var changeNickwButton = UIButton().then {
+        $0.addTarget(self,
+                     action: #selector(changeNickButtonTap),
+                     for: .touchUpInside)
+        $0.backgroundColor = .blue
+        $0.setTitle("닉네임 변경", for: .normal)
         $0.titleLabel?.textColor = .white
     }
 }

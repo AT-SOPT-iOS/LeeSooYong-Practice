@@ -13,7 +13,7 @@ final class GetMyInfoService {
     private init() {}
     
     func makeRequest(userId: Int) -> URLRequest? {
-        var urlString = "http://api.atsopt-seminar4.site/api/v1/users/me"
+        let urlString = "http://api.atsopt-seminar4.site/api/v1/users/me"
         
         guard let url = URL(string: urlString) else { return nil }
         
