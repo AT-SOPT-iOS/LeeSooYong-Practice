@@ -14,11 +14,7 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Text(name)
-            Button(action: {
-                self.name = "나연"
-            }) {
-                Text("이름 바꾸기")
-            }
+            NameChangeView(name: $name)
         }
     }
 }
